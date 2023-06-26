@@ -3,10 +3,8 @@ const bodyParser = require('body-parser');
 const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
 const app = express();
 
-// urlencoded enables us to fetch anything from HTML form
-app.use(bodyParser.urlencoded({extended:true}));
-
 require('dotenv').config();
+app.use(bodyParser.urlencoded({extended:true}));
 app.use(express.static('public'));
 app.set('view engine', 'ejs');
 
@@ -31,7 +29,6 @@ app.get('/', (req, res) => {
 
 /*
 *    app.post allows us to control the response of what will happen after the user sumbits a message
-*    By writing this piece of code, we tell the browser the location of the response page.
 */
 
 
