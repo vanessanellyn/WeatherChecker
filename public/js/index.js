@@ -49,3 +49,4 @@ viewSvg.addEventListener("click", ()=>{
         view.innerHTML = "View More";
     }
 });
+

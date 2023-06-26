@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
+const notifier = require('node-notifier');
 const app = express();
 
 require('dotenv').config();
@@ -18,31 +19,64 @@ app.listen(3000, () => {
     console.log("Server 3000 is running");
 });
 
-/*
-*    app.get allows us to communicate to the server
-*    By writing this piece of code, we tell the browser the location of the homepage
-*/
+// app.get allows us to communicate to the server
 
 app.get('/', (req, res) => {
-    res.render("index");
+    const sendData = {location: "Location", temp: "Temp", desc: "Description", feel: "Feel-like", humidity: "Humidity", speed: "Speed"};
+    res.render("index", {sendData: sendData});
 });
 
-/*
-*    app.post allows us to control the response of what will happen after the user sumbits a message
-*/
-
+// app.post allows us to control the response of what will happen after the user sumbits a message
 
 app.post('/', async (req, res) => {
-    let location = await req.body.city;
-    const url = 'https://api.openweathermap.org/data/2.5/weather?q='+ location +'&appid=12e9dc1054ba8e41840b71053625bac5&units=metric';
-    const response = await fetch(url);
-    const weatherData = await response.json();
-    const temp = Math.floor(weatherData.main.temp);
-    const disc = weatherData.weather[0].description;
-    const icon = weatherData.weather[0].icon;
-    const imageUrl = 'https://openweathermap.org/img/wn/'+icon+'@2x.png';
-    res.write("<h1>The current weather in "+location+" is "+ disc +"</h1>");
-    res.write("<h1>The current temperature is "+temp+" degree celcius.</h1>");
-    res.write("<img src='"+imageUrl+"'>");
-});
+    try {
+        let location = await req.body.city;
+        let sendData = {
+            "temp": "Temp",
+            "desc": "Description",
+            "location": "Location",
+            "feel": "Feel-like",
+            "humidity": "Humidity",
+            "speed": "Speed"
+        }
+        const url = 'https://api.openweathermap.org/data/2.5/weather?q='+ location +'&appid='+process.env.APIKEY+'&units=metric';
 
+        const requestOptions = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' }
+        };
+        weatherData = await fetch(url, requestOptions)
+            .then(async response => {
+                return response.json();
+            })
+            .catch(error => {
+                console.error('has error here!', error);  
+            });
+
+        if (weatherData.cod === 200) {
+            const temp = Math.floor(weatherData.main.temp);
+            const desc = weatherData.weather[0].description;
+            sendData.temp = temp;
+            sendData.desc = desc;
+            sendData.location = location;
+            sendData.feel = weatherData.main.feels_like;
+            sendData.humidity = weatherData.main.humidity;
+            sendData.speed = weatherData.wind.speed;
+        } else {
+            notifier.notify({
+                title: 'Error',
+                message: weatherData.message,
+                sound: true,
+                wait: true
+            });
+        }
+        res.render("index", {sendData: sendData});
+    } catch (error) {
+        notifier.notify({
+            title: 'Error',
+            message: error,
+            sound: true,
+            wait: true
+        });
+    }
+});
