@@ -15,13 +15,20 @@ Welcome to WeatherChecker, a simple weather information application made using N
 ## Third Party API Link
 https://openweathermap.org/api
 
-## Installation
+## Getting Started
 
-To run WeatherChecker locally, follow these steps:
+1. Clone the repository:
+      ```bash
+      git clone https://github.com/vanessanellyn/WeatherChecker.git
 
-  ```bash
-     git clone https://github.com/vanessanellyn/WeatherChecker.git
+2. Navigate to the project directory:
+      ```bash
+      cd WeatherChecker
 
-     cd [project_folder]
+3. Install dependencies:
+      ```bash
+      npm install
 
-     npm install
+4. Start the application:
+      ```bash
+      npm start
