@@ -12,8 +12,12 @@ Welcome to WeatherChecker, a simple weather information application made using N
 - **Detailed Weather Data:** Get details such as temperature, humidity, wind speed, and more.
 - **Responsive Design:** Access WeatherChecker from various devices with a responsive and user-friendly interface.
 
-## Third Party API Link
-https://openweathermap.org/api
+## Technologies Used
+
+- **JavaScript**: A web programming language for interactive websites.
+- **[Node.js](https://nodejs.org/en)**: A JavaScript runtime built on Chrome's V8 JavaScript engine.
+- **[Express.js](https://expressjs.com/)**: A fast, unopinionated, minimalist web framework for Node.js.
+- **[OpenWeather API](https://openweathermap.org/api)**: Integration with a map API for interactive mapping features.
 
 ## Getting Started
 
