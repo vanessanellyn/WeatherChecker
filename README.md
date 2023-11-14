@@ -1,6 +1,6 @@
-# WeatherChecker
+<h1 align="center">Weather Checker</h1> 
 
-Welcome to WeatherChecker, a simple weather information application made using NodeJS.
+<p align="center">Welcome to WeatherChecker, a simple weather information application made using NodeJS.</p>
 
 ## About
 
